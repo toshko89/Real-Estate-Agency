@@ -18,6 +18,7 @@ authController.post('/login', async (req, res) => {
 
     } catch (error) {
         console.log(error);
+        res.render('auth/login', { error });
     }
 });
 
@@ -48,9 +49,14 @@ authController.post('/register', async (req, res) => {
 
     } catch (error) {
         console.log(error);
-        // res.redirect('main',error);
+        res.render('auth/register', { error: error.message });
     }
 
 });
+
+authController.get('/logout', (req, res) => {
+    res.clearCookie(config.TOKEN_COOKIE_NAME);
+    res.redirect('/');
+})
 
 module.exports = authController;

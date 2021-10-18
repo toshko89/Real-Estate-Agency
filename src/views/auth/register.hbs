@@ -1,4 +1,15 @@
 <main>
+
+    <!-- In case of error, you should display div with class "errorContainer" -->
+    <!-- You can choose to display the first error or all of them (error message/s in your opinion) -->
+
+    {{#if error}}
+    <div>
+        <div class="errorContainer">
+            <p>{{error}}</p>
+        </div>
+    </div>
+    {{/if}}
     <section id="register-page">
         <div class="boxs">
             <div class="card-image">
@@ -13,7 +24,8 @@
                     <label class="name">Full Name</label>
                 </div>
                 <div class="input">
-                    <input type="text" class="input-field" placeholder="alexander" id="username" name="username" value="" />
+                    <input type="text" class="input-field" placeholder="alexander" id="username" name="username"
+                        value="" />
                     <label class="username">Username</label>
                 </div>
                 <div class="input">
@@ -21,7 +33,8 @@
                     <label class="password">Password</label>
                 </div>
                 <div class="input">
-                    <input type="password" class="input-field" id="re-password" name="rePassword" placeholder="******" />
+                    <input type="password" class="input-field" id="re-password" name="rePassword"
+                        placeholder="******" />
                     <label class="re-password">Repeat Password</label>
                 </div>
                 <div class="action">

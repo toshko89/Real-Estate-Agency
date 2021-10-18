@@ -5,7 +5,6 @@ const { errorHandler } = require('./middleWares/error-middleware.js');
 
 router.use(homeController);
 router.use(authController);
-
 router.use(errorHandler);
 
 
