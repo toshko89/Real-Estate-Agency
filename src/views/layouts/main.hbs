@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <!-- Do not forget to change the path to the css file -->
     <title>Home Page</title>
-    <link href="./static/css/style.css" type="text/css" rel="stylesheet">
+    <link href="/css/style.css" type="text/css" rel="stylesheet">
 </head>
 
 <body>
@@ -22,68 +22,21 @@
         </div>-->
 
         <nav>
-            <a href="#">Home</a>
+            <a href="/">Home</a>
             <ul>
                 <!-- Guest users and Logged users -->
-                <li><a href="#">Housing for rent</a></li>
+                <li><a href="/rent">Housing for rent</a></li>
                 <!-- Guest users -->
-                <li><a href="#">Login</a></li>
-                <li><a href="#">Register</a></li>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/register">Register</a></li>
                 <!-- Logged users -->
-                <li><a href="#">Create offer</a></li>
-                <li><a href="#">Search</a></li>
-                <li><a href="#">Logout</a></li>
+                <li><a href="/create">Create offer</a></li>
+                <li><a href="/search">Search</a></li>
+                <li><a href="/logout">Logout</a></li>
             </ul>
         </nav>
 
-        <main>
-            <section id="home-page" class="background-image">
-                <div class="home-container">
-
-                    <div class="info">
-                        <h1>Discover Your Perfect Home</h1>
-                        <h2>The Best Real Estate Deals</h2>
-                    </div>
-
-                </div>
-            </section>
-
-            <section id="top-houses">
-                <h1>Top Houses</h1>
-                <div class="houses">
-
-
-                    <div class="card-home">
-                        <h2>Real House Luxury Villa</h2>
-                        <div class="cta-container"><a href="#" class="details-link">Details</a></div>
-                        <div class="card_image"><img src="./static/images/5.jpg"></div>
-
-                    </div>
-
-                    <div class="card-home">
-                        <h2>House Take Away</h2>
-                        <div class="cta-container"><a href="#" class="details-link">Details</a></div>
-                        <div class="card_image"><img src="./static/images/house2.jpg"></div>
-
-                    </div>
-
-                    <div class="card-home">
-                        <h2>Sunhouse C21</h2>
-                        <div class="cta-container"><a href="#" class="details-link">Details</a></div>
-                        <div class="card_image"><img src="./static/images/apartments.jpg"></div>
-
-                    </div>
-
-                    <!-- If there are still no offers for housing in the database display: -->
-                    <!--<div class="no-data-container">
-                        <p class="no-data">There are no housing offers found...</p>
-                    </div>-->
-                </div>
-            </section>
-        </main>
-
-
-
+        {{{body}}}
 
         <footer>
             © 2021
