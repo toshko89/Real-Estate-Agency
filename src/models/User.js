@@ -8,7 +8,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: [5, 'Name must be at least 5 characters'],
-        unique: true,
         validate: {
             validator: function (v) {
                 return /^([a-zA-Z]{2,}\s[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}\s?([a-zA-Z]{1,})?)/i.test(v);

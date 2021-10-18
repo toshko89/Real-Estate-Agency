@@ -1,35 +1,56 @@
 const authController = require('express').Router();
 
-const { addUser } = require('../services/auth-service.js');
+const config = require('../config/config.json')
+const User = require('../models/User.js');
+const authService = require('../services/auth-service.js');
 
 
 authController.get('/login', (req, res) => {
     res.render('auth/login')
-})
+});
 
+authController.post('/login', async (req, res) => {
+    try {
+        let { username, password } = req.body;
+        let userToken = await authService.login(username, password);
+        res.cookie(config.TOKEN_COOKIE_NAME, userToken, { httpOnly: true });
+        res.redirect('/')
+
+    } catch (error) {
+        console.log(error);
+    }
+});
 
 authController.get('/register', (req, res) => {
-    res.render('auth/register')
-})
+    res.render('auth/register');
+});
 
 authController.post('/register', async (req, res) => {
     try {
         let { name, username, password, rePassword } = req.body;
 
         if (password !== rePassword) {
-            throw new Error('Password doesn\'t match, please try again')
+            throw new Error('Password doesn\'t match, please try again');
         }
-        if (name.trim() != '' && username.trim() != '' && password.trim() != '' && rePassword.trim() != '') {
-            await addUser(name,username,password);
-            
+        if (name.trim() == '' && username.trim() == '' && password.trim() == '' && rePassword.trim() == '') {
+            throw new Error('All fields are required!');
         }
-    } catch (error) {
 
+        const userCheck = await User.findUser(username);
+        if (userCheck) {
+            throw new Error('Username is taken, please try again')
+        }
+
+        const user = await authService.addUser(name, username, password);
+        const token = authService.createToken(user);
+        res.cookie(config.TOKEN_COOKIE_NAME, token, { httpOnly: true });
+        res.redirect('/');
+
+    } catch (error) {
+        console.log(error);
+        // res.redirect('main',error);
     }
 
-
-
-
-})
+});
 
 module.exports = authController;
