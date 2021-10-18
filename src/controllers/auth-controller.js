@@ -5,4 +5,8 @@ authController.get('/login',(req,res)=>{
 })
 
 
+authController.get('/register',(req,res)=>{
+    res.render('auth/register')
+})
+
 module.exports = authController;
