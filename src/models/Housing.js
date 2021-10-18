@@ -4,7 +4,7 @@ const houseSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
-        minlength: [5, 'Name must be at least 5 characters'],
+        minlength: [6, 'Name must be at least 6 characters'],
     },
     type: {
         type: String,
@@ -14,10 +14,13 @@ const houseSchema = new mongoose.Schema({
     year: {
         type: Number,
         required: true,
+        min:1850,
+        max:2021,
     },
     city: {
         type: String,
         required: true,
+        minlength: [4, 'Type must be at least 5 characters']
     },
     homeImg: {
         type: String,
@@ -32,11 +35,13 @@ const houseSchema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: [10, 'Description must be at least 10 characters'],
-        maxlength: 500
+        maxlength: 60
     },
     availablePieces: {
         type: Number,
-        required: true
+        required: true,
+        min:0,
+        max:10
     },
     tenants: [{
         type: mongoose.Types.ObjectId,
