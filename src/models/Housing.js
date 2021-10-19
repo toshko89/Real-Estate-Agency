@@ -22,7 +22,7 @@ const houseSchema = new mongoose.Schema({
         required: true,
         minlength: [4, 'Type must be at least 5 characters']
     },
-    homeImg: {
+    homeImage: {
         type: String,
         required: true,
         validate: {
