@@ -4,7 +4,7 @@ const { authentication, authorization } = require('../middleWares/auth-middlewar
 
 
 houseController.use(authentication);
-houseController.use(authorization); 
+houseController.use(authorization);
 
 houseController.get('/create', (req, res) => {
     console.log(req.user)
@@ -34,9 +34,14 @@ houseController.post('/create', async (req, res) => {
     }
 });
 
-houseController.get('/rent', (req, res) => {
-    res.render('house-pages/rent', { title: 'Rent a house' })
-})
+houseController.get('/rent', async (req, res) => {
+    try {
+        const houses = await houseService.getAll();
+        res.render('house-pages/rent', {houses})
+    } catch (error) {
+
+    }
+});
 
 
 module.exports = houseController;

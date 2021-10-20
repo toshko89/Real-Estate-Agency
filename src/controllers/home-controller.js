@@ -5,8 +5,8 @@ const houseSerice = require('../services/house-serive.js');
 
 homeController.get('/',async (req,res)=>{
     try {
-        const house = await houseSerice.getLatestThree();
-        res.render('home',{house,title:'Home Page'});
+        const houses = await houseSerice.getLatestThree();
+        res.render('home',{houses,title:'Home Page'});
     } catch (error) {
         console.log(error);
     }

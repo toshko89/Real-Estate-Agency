@@ -28,7 +28,7 @@ function authentication(req, res, next) {
 function authorization(req, res, next) {
 
     if (!req.user) {
-        res.render('auth/login', { error: 'You are not authorized to view this page, please login/regiter' });
+      return res.render('auth/login', { error: 'You are not authorized to view this page, please login/regiter' });
     }
     next();
 

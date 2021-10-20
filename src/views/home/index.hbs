@@ -25,17 +25,15 @@
     <section id="top-houses">
         <h1>Top Houses</h1>
         <div class="houses">
-            
+            {{#each houses}}
             <div class="card-home">
-                {{#each house}}
                 {{> house}}
-                {{else}}
-                <div class="no-data-container">
-                    <p class="no-data">There are no housing offers found...</p>
-                </div>
-                {{/each}}
             </div>
-
+            {{else}}
+            <div class="no-data-container">
+                <p class="no-data">There are no housing offers found...</p>
+            </div>
+            {{/each}}
         </div>
     </section>
 </main>
