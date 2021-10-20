@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const houseSchema = new mongoose.Schema({
     name: {
+        unique:[true,'Name is taken please choose new'],
         type: String,
         required: true,
         minlength: [5, 'Name must be at least 6 characters'],

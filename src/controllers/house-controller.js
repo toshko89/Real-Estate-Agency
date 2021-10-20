@@ -27,7 +27,7 @@ houseController.post('/create', async (req, res) => {
         }
 
         await houseService.createHouse(newHouse);
-        res.redirect('house-pages/rent');
+        res.redirect('/houses/rent');
     } catch (error) {
         console.log(error);
         res.render('house-pages/create', { error: error });
