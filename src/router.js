@@ -8,7 +8,7 @@ router.use(homeController);
 router.use(authController);
 router.use('/houses', houseController);
 
-router.use(errorHandler);
+// router.use(errorHandler);
 
 
 module.exports = router;

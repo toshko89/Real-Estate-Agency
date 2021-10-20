@@ -31,11 +31,11 @@ const houseSchema = new mongoose.Schema({
             }
         }
     },
-    propertyDescription: {
+    description: {
         type: String,
         required: true,
         minlength: [10, 'Description must be at least 10 characters'],
-        maxlength: 60
+        maxlength: 200
     },
     availablePieces: {
         type: Number,
