@@ -1,18 +1,12 @@
 const houseController = require('express').Router();
 const houseService = require('../services/house-serive.js');
-const { authentication, authorization } = require('../middleWares/auth-middleware.js');
+const { authorization } = require('../middleWares/auth-middleware.js');
 
-
-houseController.use(authentication);
-houseController.use(authorization);
-
-houseController.get('/create', (req, res) => {
-    console.log(req.user)
+houseController.get('/create', authorization, (req, res) => {
     res.render('house-pages/create', { title: 'Create new offer' });
 })
 
-houseController.post('/create', async (req, res) => {
-    console.log(req.user);
+houseController.post('/create', authorization, async (req, res) => {
     try {
         let { name, type, year, city, homeImage, description, availablePieces } = req.body;
         let newHouse = {
@@ -25,7 +19,6 @@ houseController.post('/create', async (req, res) => {
             availablePieces,
             owner: req.user._id
         }
-
         await houseService.createHouse(newHouse);
         res.redirect('/houses/rent');
     } catch (error) {
@@ -37,11 +30,27 @@ houseController.post('/create', async (req, res) => {
 houseController.get('/rent', async (req, res) => {
     try {
         const houses = await houseService.getAll();
-        res.render('house-pages/rent', {houses})
+        res.render('house-pages/rent', { houses })
+    } catch (error) {
+        console.log(error);
+        res.render('house-pages/rent', { error: error });
+    }
+});
+
+houseController.get('/search', authorization, async (req, res) => {
+    res.render('house-pages/search');
+});
+
+houseController.post('/search', authorization, async (req, res) => {
+    try {
+        const {type} = req.query
+        console.log(type);
+        // const houses = await houseService.sarch()
     } catch (error) {
 
     }
-});
+})
+
 
 
 module.exports = houseController;

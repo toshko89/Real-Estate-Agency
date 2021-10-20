@@ -8,10 +8,15 @@ async function createHouse(house) {
     return Housing.create(house);
 }
 
+async function sarch(type) {
+    return Housing.fing({ "type": { $regex: type, $options: 'i' } })
+}
+
 const houseSerice = {
     getAll,
     getLatestThree,
-    createHouse
+    createHouse,
+    sarch
 }
 
 module.exports = houseSerice;
