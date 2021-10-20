@@ -1,11 +1,18 @@
 const houseController = require('express').Router();
-const houseSerice = require('../services/house-serive.js');
+const houseService = require('../services/house-serive.js');
+const { authentication, authorization } = require('../middleWares/auth-middleware.js');
 
-houseController.get('/create',(req,res)=>{
-    res.render('house-pages/create',{title:'Create new offer'});
+
+houseController.use(authentication);
+houseController.use(authorization); 
+
+houseController.get('/create', (req, res) => {
+    console.log(req.user)
+    res.render('house-pages/create', { title: 'Create new offer' });
 })
 
 houseController.post('/create', async (req, res) => {
+    console.log(req.user);
     try {
         let { name, type, year, city, homeImage, description, availablePieces } = req.body;
         let newHouse = {
@@ -15,19 +22,20 @@ houseController.post('/create', async (req, res) => {
             city,
             homeImage,
             description,
-            availablePieces
+            availablePieces,
+            owner: req.user._id
         }
 
-        await houseSerice.createHouse(newHouse);
-        res.redirect('/rent');
+        await houseService.createHouse(newHouse);
+        res.redirect('house-pages/rent');
     } catch (error) {
         console.log(error);
-        res.render(`${req.originalUrl}`,{error});
+        res.render('house-pages/create', { error: error });
     }
 });
 
-houseController.get('/rent',(req,res)=>{
-    res.render('house-pages/rent',{title:'Rent a house'})
+houseController.get('/rent', (req, res) => {
+    res.render('house-pages/rent', { title: 'Rent a house' })
 })
 
 

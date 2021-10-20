@@ -4,6 +4,7 @@ const homeController = require('./controllers/home-controller.js');
 const houseController = require('./controllers/house-controller.js');
 const { errorHandler } = require('./middleWares/error-middleware.js');
 
+
 router.use(homeController);
 router.use(authController);
 router.use('/houses', houseController);
