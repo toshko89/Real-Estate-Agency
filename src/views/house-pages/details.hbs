@@ -20,22 +20,21 @@
                         <p>People rented this housing: There are no tenants yet.</p>
                     </div>
                 </div>
-                
-                {{#if user}}
+
                 <!-- if there is no registered user, do not display buttons-->
                 <div class="product-btn">
-                    <!-- Only for registered user and creator of the housing offer-->
+                    {{#if isOwner}}
                     <a href="/houses/{{_id}}/edit" class="edit">Edit</a>
-                    <a href="/delete" class="remove">Delete</a>
-
+                    <a href="/houses/{{_id}}/delete" class="remove">Delete</a>
+                    {{else if user}}
                     <!-- logged in user with available pieces-->
                     <a href="#" class="rentHome">Rent a home, available {{availablePieces}} housing</a>
                     <p class="alRentHome">You have already rent this home</p>
 
                     <!-- logged in user with no available pieces-->
                     <p class="no-housing">No Housing Available!</p>
+                    {{/if}}
                 </div>
-                {{/if}}
             </div>
         </div>
     </section>

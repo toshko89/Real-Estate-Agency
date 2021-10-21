@@ -10,17 +10,27 @@ const getLatestThree = async () => await Housing.find({}).sort({ _id: 1 }).limit
 
 async function createHouse(house) {
     return Housing.create(house);
-}
+};
 
 async function search(search) {
     return Housing.find({ type: { $regex: search, $options: 'i' } }).lean();
-}
+};
+
+async function updateHouse(houseId,newData){
+    return Housing.findByIdAndUpdate(houseId,newData);
+};
+
+async function deleteHouse(houseId){
+    return Housing.findByIdAndDelete(houseId);
+};
 
 const houseSerice = {
     getAll,
     getOne,
     search,
     createHouse,
+    updateHouse,
+    deleteHouse,
     getLatestThree,
 }
 
