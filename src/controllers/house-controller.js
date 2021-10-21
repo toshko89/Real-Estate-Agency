@@ -42,7 +42,9 @@ houseController.get('/:houseId', async (req, res) => {
         const house = await houseService.getOne(req.params.houseId);
         const isOwner = house.owner == req.user?._id;
         const isAvailable = house.availablePieces > 0;
-        res.render('house-pages/details', { isOwner, isAvailable, ...house, title: 'Details' });
+        const isRentedByUser = house.tenants.some(x => x._id == req.user?._id);
+        console.log(isRentedByUser);
+        res.render('house-pages/details', { isOwner,isRentedByUser, isAvailable, ...house, title: 'Details' });
     } catch (error) {
         console.log(error);
         res.render('house-pages/details', { title: 'Search Page', error });
