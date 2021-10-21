@@ -37,4 +37,14 @@ houseController.get('/rent', async (req, res) => {
     }
 });
 
+houseController.get('/:houseId', async (req, res) => {
+    try {
+        const house = await houseService.getOne(req.params.houseId);
+        res.render('house-pages/details', { title: 'Search Page', ...house });
+    } catch (error) {
+        console.log(error);
+        res.render('house-pages/details', { title: 'Search Page', error });
+    }
+})
+
 module.exports = houseController;

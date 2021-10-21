@@ -19,15 +19,11 @@ homeController.get('/search', authorization, (req, res) => {
 homeController.post('/search', authorization, async (req, res) => {
     try {
         let { search } = req.body;
-        console.log(search)
         const houses = await houseService.search(search);
-        console.log(houses);
         res.render('house-pages/search', { title: 'Search Page', houses });
     } catch (error) {
         res.render('house-pages/search', { error });
     }
 });
-
-
 
 module.exports = homeController;
