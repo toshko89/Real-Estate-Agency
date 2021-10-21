@@ -8,15 +8,15 @@ async function createHouse(house) {
     return Housing.create(house);
 }
 
-async function sarch(type) {
-    return Housing.find({ "type": { $regex: type, $options: 'i' } })
+async function search(search) {
+    return Housing.find({ type: { $regex: search, $options: 'i' } }).lean();
 }
 
 const houseSerice = {
     getAll,
     getLatestThree,
     createHouse,
-    sarch
+    search
 }
 
 module.exports = houseSerice;
