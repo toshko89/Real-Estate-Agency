@@ -9,7 +9,7 @@ async function createHouse(house) {
 }
 
 async function sarch(type) {
-    return Housing.fing({ "type": { $regex: type, $options: 'i' } })
+    return Housing.find({ "type": { $regex: type, $options: 'i' } })
 }
 
 const houseSerice = {

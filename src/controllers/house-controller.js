@@ -37,20 +37,4 @@ houseController.get('/rent', async (req, res) => {
     }
 });
 
-houseController.get('/search', authorization, async (req, res) => {
-    res.render('house-pages/search');
-});
-
-houseController.post('/search', authorization, async (req, res) => {
-    try {
-        const {type} = req.query
-        console.log(type);
-        // const houses = await houseService.sarch()
-    } catch (error) {
-
-    }
-})
-
-
-
 module.exports = houseController;
