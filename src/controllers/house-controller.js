@@ -71,12 +71,12 @@ houseController.post('/:houseId/edit', async (req, res) => {
 houseController.get('/:houseId/delete', async (req, res) => {
     try {
         await houseService.deleteHouse(req.params.houseId);
-        res.redirect('/rent')
+        res.redirect('/houses/rent');
     } catch (error) {
         console.log(error);
-        res.render('/rent', error);
+        res.render(`/houses/${req.params.houseId}`, error);
     }
-})
+});
 
 
 
