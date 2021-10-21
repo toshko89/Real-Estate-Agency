@@ -32,5 +32,5 @@ function authorization(req, res, next) {
     }
     next();
 
-}
+};
 module.exports = { authentication, authorization }

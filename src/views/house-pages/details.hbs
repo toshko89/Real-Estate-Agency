@@ -18,6 +18,7 @@
 
                         <!-- If not display: -->
                         <p>People rented this housing: There are no tenants yet.</p>
+                        
                     </div>
                 </div>
 
@@ -27,12 +28,16 @@
                     <a href="/houses/{{_id}}/edit" class="edit">Edit</a>
                     <a href="/houses/{{_id}}/delete" class="remove">Delete</a>
                     {{else if user}}
-                    <!-- logged in user with available pieces-->
-                    <a href="#" class="rentHome">Rent a home, available {{availablePieces}} housing</a>
+                    {{#if isRented}}
                     <p class="alRentHome">You have already rent this home</p>
-
+                    {{else if isAvailable}}
+                    <!-- logged in user with available pieces-->
+                    <a href="/houses/{{_id}}/rent" class="rentHome">Rent a home, available {{availablePieces}}
+                        housing</a>
+                    {{else}}
                     <!-- logged in user with no available pieces-->
                     <p class="no-housing">No Housing Available!</p>
+                    {{/if}}
                     {{/if}}
                 </div>
             </div>

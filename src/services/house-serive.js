@@ -17,12 +17,23 @@ async function search(search) {
 };
 
 async function updateHouse(houseId,newData){
-    return Housing.findByIdAndUpdate(houseId,newData);
+    return Housing.findByIdAndUpdate(houseId,newData,{runValidators:true});
 };
 
 async function deleteHouse(houseId){
     return Housing.findByIdAndDelete(houseId);
 };
+
+async function addTenant(houseId,personId){
+    return Housing.findByIdAndUpdate(
+        {_id:houseId},
+        {
+            $push:{tenants:personId},
+            $inc:{availablePieces:-1}
+        },
+        {runValidators:true}
+        )
+}
 
 const houseSerice = {
     getAll,
@@ -31,6 +42,7 @@ const houseSerice = {
     createHouse,
     updateHouse,
     deleteHouse,
+    addTenant,
     getLatestThree,
 }
 
