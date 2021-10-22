@@ -1,6 +1,7 @@
 const houseController = require('express').Router();
 const houseService = require('../services/house-serive.js');
 const { authorization, isOwner } = require('../middleWares/auth-middleware.js');
+const { isRentedByCurrentUser } = require('../helpers/houseHelper.js');
 
 houseController.get('/create', authorization, (req, res) => {
     res.render('house-pages/create', { title: 'Create new offer' });
@@ -42,8 +43,9 @@ houseController.get('/:houseId', async (req, res) => {
         const house = await houseService.getOne(req.params.houseId);
         const isOwnHouse = house.owner == req.user?._id;
         const isAvailable = house.availablePieces > 0;
-        const isRentedByCurrentUser = house.tenants.some(x => x._id == req.user?._id);
-        res.render('house-pages/details', { isOwnHouse , isRentedByCurrentUser, isAvailable, ...house, title: 'Details' });
+        const isRented = await isRentedByCurrentUser(req.params.houseId, req.user);
+        console.log(isRented)
+        res.render('house-pages/details', { isOwnHouse, isRented, isAvailable, ...house, title: 'Details' });
     } catch (error) {
         console.log(error);
         res.render('house-pages/details', { title: 'Search Page', error });
@@ -52,19 +54,17 @@ houseController.get('/:houseId', async (req, res) => {
 
 houseController.get('/:houseId/rent', async (req, res) => {
     try {
-        const house = await houseService.getOne(req.params.houseId);
-        let isRented = false;
-        if (house.availablePieces > 0) {
-            await houseService.addTenant(req.params.houseId, req.user._id);
-            isRented = true;
-        }
-        res.render(`/houses/${req.params.houseId}`, isRented);
+        await houseService.addTenant(req.params.houseId, req.user._id);
+        const allTenants = await houseService.getAllTenants(req.params.houseId);
+        // TODO.... 
+        const tenantsNames = allTenants.map(user => user.name);
+        res.redirect(`/houses/${req.params.houseId}`, tenantsNames);
     } catch (error) {
         console.log(error);
     }
 })
 
-houseController.get('/:houseId/edit',isOwner, async (req, res) => {
+houseController.get('/:houseId/edit', isOwner, async (req, res) => {
     try {
         const houseData = await houseService.getOne(req.params.houseId);
         res.render('house-pages/edit', { ...houseData, title: 'Edit' });
@@ -74,7 +74,7 @@ houseController.get('/:houseId/edit',isOwner, async (req, res) => {
     }
 });
 
-houseController.post('/:houseId/edit',isOwner, async (req, res) => {
+houseController.post('/:houseId/edit', isOwner, async (req, res) => {
     try {
         await houseService.updateHouse(req.params.houseId, req.body);
         res.redirect(`/houses/${req.params.houseId}`);
@@ -84,7 +84,7 @@ houseController.post('/:houseId/edit',isOwner, async (req, res) => {
     }
 });
 
-houseController.get('/:houseId/delete',isOwner, async (req, res) => {
+houseController.get('/:houseId/delete', isOwner, async (req, res) => {
     try {
         await houseService.deleteHouse(req.params.houseId);
         res.redirect('/houses/rent');

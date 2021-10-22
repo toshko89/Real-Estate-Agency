@@ -35,6 +35,10 @@ async function addTenant(houseId,personId){
         )
 }
 
+async function getAllTenants(houseId){
+    return Housing.findById(houseId).populate('tenants').lean();
+}
+
 const houseSerice = {
     getAll,
     getOne,
@@ -44,6 +48,7 @@ const houseSerice = {
     deleteHouse,
     addTenant,
     getLatestThree,
+    getAllTenants,
 }
 
 module.exports = houseSerice;

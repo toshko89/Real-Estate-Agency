@@ -28,7 +28,7 @@
                     <a href="/houses/{{_id}}/edit" class="edit">Edit</a>
                     <a href="/houses/{{_id}}/delete" class="remove">Delete</a>
                     {{else if user}}
-                    {{#if isRentedByCurrentUser}}
+                    {{#if isRented}}
                     <p class="alRentHome">You have already rent this home</p>
                     {{else if isAvailable}}
                     <!-- logged in user with available pieces-->
