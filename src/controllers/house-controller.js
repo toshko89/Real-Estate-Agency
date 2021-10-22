@@ -1,6 +1,6 @@
 const houseController = require('express').Router();
 const houseService = require('../services/house-serive.js');
-const { authorization } = require('../middleWares/auth-middleware.js');
+const { authorization, isOwner } = require('../middleWares/auth-middleware.js');
 
 houseController.get('/create', authorization, (req, res) => {
     res.render('house-pages/create', { title: 'Create new offer' });
@@ -40,11 +40,10 @@ houseController.get('/rent', async (req, res) => {
 houseController.get('/:houseId', async (req, res) => {
     try {
         const house = await houseService.getOne(req.params.houseId);
-        const isOwner = house.owner == req.user?._id;
+        const isOwnHouse = house.owner == req.user?._id;
         const isAvailable = house.availablePieces > 0;
-        const isRentedByUser = house.tenants.some(x => x._id == req.user?._id);
-        console.log(isRentedByUser);
-        res.render('house-pages/details', { isOwner,isRentedByUser, isAvailable, ...house, title: 'Details' });
+        const isRentedByCurrentUser = house.tenants.some(x => x._id == req.user?._id);
+        res.render('house-pages/details', { isOwnHouse , isRentedByCurrentUser, isAvailable, ...house, title: 'Details' });
     } catch (error) {
         console.log(error);
         res.render('house-pages/details', { title: 'Search Page', error });
@@ -65,7 +64,7 @@ houseController.get('/:houseId/rent', async (req, res) => {
     }
 })
 
-houseController.get('/:houseId/edit', async (req, res) => {
+houseController.get('/:houseId/edit',isOwner, async (req, res) => {
     try {
         const houseData = await houseService.getOne(req.params.houseId);
         res.render('house-pages/edit', { ...houseData, title: 'Edit' });
@@ -75,7 +74,7 @@ houseController.get('/:houseId/edit', async (req, res) => {
     }
 });
 
-houseController.post('/:houseId/edit', async (req, res) => {
+houseController.post('/:houseId/edit',isOwner, async (req, res) => {
     try {
         await houseService.updateHouse(req.params.houseId, req.body);
         res.redirect(`/houses/${req.params.houseId}`);

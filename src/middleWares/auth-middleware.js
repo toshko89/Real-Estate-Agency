@@ -1,5 +1,6 @@
 const authService = require("../services/auth-service.js");
 const { JWT_SECRET, TOKEN_COOKIE_NAME } = require('../config/config.json');
+const houseService = require('../services/house-serive.js');
 
 function authentication(req, res, next) {
     const token = req.cookies[TOKEN_COOKIE_NAME];
@@ -28,9 +29,23 @@ function authentication(req, res, next) {
 function authorization(req, res, next) {
 
     if (!req.user) {
-      return res.render('auth/login', { error: 'You are not authorized to view this page, please login/regiter' });
+        return res.render('auth/login', { error: 'You are not authorized to view this page, please login/regiter' });
     }
     next();
 
 };
-module.exports = { authentication, authorization }
+
+async function isOwner(req, res, next) {
+    const house = await houseService.getOne(req.params.houseId);
+
+    if(house.owner == req.user?._id){
+        console.log(house.owner == req.user?._id);
+        req.user.isOwner === true;
+        console.log(req.user.isOwner);
+        return next();
+    }
+
+    return res.render('auth/login', { error: 'You are not authorized to view this page, please login/regiter' });
+
+}
+module.exports = { authentication, authorization,isOwner }
