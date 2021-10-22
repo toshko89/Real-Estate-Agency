@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const houseSchema = new mongoose.Schema({
     name: {
-        unique:[true,'Name is taken please choose new'],
+        unique: [true, 'Name is taken please choose new'],
         type: String,
         required: true,
         minlength: [5, 'Name must be at least 6 characters'],
@@ -15,8 +15,8 @@ const houseSchema = new mongoose.Schema({
     year: {
         type: Number,
         required: true,
-        min:1850,
-        max:2021,
+        min: 1850,
+        max: 2021,
     },
     city: {
         type: String,
@@ -41,8 +41,8 @@ const houseSchema = new mongoose.Schema({
     availablePieces: {
         type: Number,
         required: true,
-        min:0,
-        max:10
+        min: 0,
+        max: 10
     },
     tenants: [{
         type: mongoose.Types.ObjectId,
@@ -51,9 +51,12 @@ const houseSchema = new mongoose.Schema({
     owner: {
         type: mongoose.Types.ObjectId,
         ref: 'User'
-    }
-});
+    },
+},
+    {
+        timestamps: true
+    });
 
-const Homes = mongoose.model('Homes',houseSchema);
+const Homes = mongoose.model('Homes', houseSchema);
 
 module.exports = Homes;

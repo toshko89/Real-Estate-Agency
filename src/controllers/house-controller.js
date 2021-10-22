@@ -84,7 +84,7 @@ houseController.post('/:houseId/edit',isOwner, async (req, res) => {
     }
 });
 
-houseController.get('/:houseId/delete', async (req, res) => {
+houseController.get('/:houseId/delete',isOwner, async (req, res) => {
     try {
         await houseService.deleteHouse(req.params.houseId);
         res.redirect('/houses/rent');
