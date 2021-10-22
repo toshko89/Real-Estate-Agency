@@ -6,7 +6,7 @@ async function getOne(houseId){
     return Housing.findById(houseId).lean();
 };
 
-const getLatestThree = async () => await Housing.find({}).sort({ _id: 1 }).limit(3).lean();
+const getLatestThree = async () => await Housing.find().sort({ createdAt: -1 }).limit(3).lean();
 
 async function createHouse(house) {
     return Housing.create(house);
