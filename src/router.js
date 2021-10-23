@@ -8,10 +8,9 @@ const { errorHandler } = require('./middleWares/error-middleware.js');
 router.use(homeController);
 router.use(authController);
 router.use('/houses', houseController);
+router.use(errorHandler);
 router.use('*',(req,res)=>{
     res.render('404');
 });
-
-// router.use(errorHandler);
 
 module.exports = router;

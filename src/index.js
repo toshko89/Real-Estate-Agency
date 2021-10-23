@@ -10,7 +10,6 @@ const { authentication } = require('./middleWares/auth-middleware.js')
 const app = express();
 const PORT = 3000;
 
-
 app.use(express.static(path.resolve(__dirname, './static')));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());

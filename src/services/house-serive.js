@@ -1,48 +1,38 @@
 const Housing = require('../models/Housing.js');
 
-const getAll = async () => Housing.find({}).populate('tenants').populate('owner').lean();
+const getAll = async () => Housing.find().populate('tenants').populate('owner').lean();
 
-async function getOne(houseId){
-    return Housing.findById(houseId).populate('tenants').populate('owner').lean();
-};
+const getOne = async (houseId) => Housing.findById(houseId).populate('tenants').populate('owner').lean();
 
 const getLatestThree = async () => await Housing.find().sort({ createdAt: -1 }).limit(3).lean();
 
-async function createHouse(house) {
-    return Housing.create(house);
-};
+const createHouse = async (house) => Housing.create(house);
 
-async function search(search) {
-    return Housing.find({ type: { $regex: search, $options: 'i' } }).lean();
-};
+const search = async (search) => Housing.find({ type: { $regex: search, $options: 'i' } }).lean();
 
-async function updateHouse(houseId,newData){
-    return Housing.findByIdAndUpdate(houseId,newData,{runValidators:true});
-};
+const updateHouse = async (houseId, newData) => Housing.findByIdAndUpdate(houseId, newData, { runValidators: true });
 
-async function deleteHouse(houseId){
-    return Housing.findByIdAndDelete(houseId);
-};
+const deleteHouse = async (houseId) => Housing.findByIdAndDelete(houseId);
 
-async function addTenant(houseId,personId){
-    return Housing.findByIdAndUpdate(
-        {_id:houseId},
+const addTenant = async (houseId, personId) =>
+    Housing.findByIdAndUpdate(
+        { _id: houseId },
         {
-            $push:{tenants:personId},
-            $inc:{availablePieces:-1}
+            $push: { tenants: personId },
+            $inc: { availablePieces: -1 }
         },
-        {runValidators:true}
-        )
-}
+        { runValidators: true }
+    )
+
 
 const houseSerice = {
     getAll,
     getOne,
     search,
+    addTenant,
     createHouse,
     updateHouse,
     deleteHouse,
-    addTenant,
     getLatestThree
 }
 

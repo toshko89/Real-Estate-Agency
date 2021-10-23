@@ -24,7 +24,7 @@ houseController.post('/create', authorization, async (req, res) => {
         res.redirect('/houses/rent');
     } catch (error) {
         console.log(error);
-        res.render('house-pages/create', { error: error });
+        res.render('house-pages/create', { error: error.message });
     }
 });
 
@@ -34,21 +34,21 @@ houseController.get('/rent', async (req, res) => {
         res.render('house-pages/rent', { houses })
     } catch (error) {
         console.log(error);
-        res.render('house-pages/rent', { error: error });
+        res.render('house-pages/rent', { error: error.message });
     }
 });
 
 houseController.get('/:houseId', async (req, res) => {
     try {
         const house = await houseService.getOne(req.params.houseId);
-        const isOwnHouse = house.owner == req.user?._id;
+        const isOwnHouse = house.owner._id == req.user?._id;
         const isAvailable = house.availablePieces > 0;
         const isRented = await isRentedByCurrentUser(req.params.houseId, req.user);
         const tenantsNames = house.tenants.map(user => user.name).join(', ');
-        res.render('house-pages/details', { isOwnHouse, isRented, isAvailable, tenantsNames, ...house, title: 'Details' });
+        res.render('house-pages/details', { isOwnHouse, isRented, isAvailable, tenantsNames, ...house, title: 'Rent a house' });
     } catch (error) {
         console.log(error);
-        res.render('house-pages/details', { title: 'Search Page', error });
+        res.render('house-pages/details', { title: 'Reant a house', error: error.message });
     }
 });
 
@@ -58,7 +58,7 @@ houseController.get('/:houseId/rent', async (req, res) => {
         res.redirect(`/houses/${req.params.houseId}`);
     } catch (error) {
         console.log(error);
-        res.render('house-pages/details', { error });
+        res.render('house-pages/details', { error: error.message });
     }
 });
 
@@ -68,7 +68,7 @@ houseController.get('/:houseId/edit', isOwner, async (req, res) => {
         res.render('house-pages/edit', { ...houseData, title: 'Edit' });
     } catch (error) {
         console.log(error);
-        res.render('house-pages/edit', { error, title: 'Edit' });
+        res.render('house-pages/edit', { error: error.message, title: 'Edit' });
     }
 });
 
@@ -78,7 +78,7 @@ houseController.post('/:houseId/edit', isOwner, async (req, res) => {
         res.redirect(`/houses/${req.params.houseId}`);
     } catch (error) {
         console.log(error);
-        res.render('house-pages/edit', { error, title: 'Edit' });
+        res.render('house-pages/edit', { error: error.message, title: 'Edit' });
     }
 });
 
@@ -88,7 +88,7 @@ houseController.get('/:houseId/delete', isOwner, async (req, res) => {
         res.redirect('/houses/rent');
     } catch (error) {
         console.log(error);
-        res.render(`/houses/${req.params.houseId}`, error);
+        res.render(`/houses/${req.params.houseId}`, {error: error.message});
     }
 });
 

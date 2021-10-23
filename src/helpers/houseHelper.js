@@ -6,6 +6,6 @@ exports.isRentedByCurrentUser = async function (houseId,user) {
         const isRentedByCurrentUser = house.tenants.some(x => x._id == user?._id);
         return isRentedByCurrentUser;
     } catch (error) {
-        console.log(error);
+        return error;
     }
 }

@@ -18,7 +18,7 @@ authController.post('/login', async (req, res) => {
 
     } catch (error) {
         console.log(error);
-        res.render('auth/login', { error });
+        res.render('auth/login', { error: error.message });
     }
 });
 

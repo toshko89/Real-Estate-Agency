@@ -36,15 +36,16 @@ function authorization(req, res, next) {
 };
 
 async function isOwner(req, res, next) {
-    const house = await houseService.getOne(req.params.houseId);
-
-    if(house.owner == req.user?._id){
-        console.log(house.owner == req.user?._id);
-        req.user.isOwner === true;
-        return next();
+    try {
+        const house = await houseService.getOne(req.params.houseId);
+        if (house.owner._id == req.user?._id) {
+            console.log(house.owner == req.user?._id);
+            req.user.isOwner === true;
+            return next();
+        }
+        return res.render('auth/login', { error: 'You are not authorized to view this page, please login/regiter' });
+    } catch (error) {
+        return res.render('auth/login', { error: error.message })
     }
-
-    return res.render('auth/login', { error: 'You are not authorized to view this page, please login/regiter' });
-
 }
-module.exports = { authentication, authorization,isOwner }
+module.exports = { authentication, authorization, isOwner }

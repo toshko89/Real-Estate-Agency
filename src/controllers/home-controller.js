@@ -8,13 +8,13 @@ homeController.get('/', async (req, res) => {
         res.render('home', { houses, title: 'Home Page' });
     } catch (error) {
         console.log(error);
-        res.render('home', { error });
+        res.render('home', { error: error.message });
     }
 });
 
 homeController.get('/search', authorization, (req, res) => {
     res.render('house-pages/search');
-})
+});
 
 homeController.post('/search', authorization, async (req, res) => {
     try {
@@ -22,7 +22,7 @@ homeController.post('/search', authorization, async (req, res) => {
         const houses = await houseService.search(search);
         res.render('house-pages/search', { title: 'Search Page', houses });
     } catch (error) {
-        res.render('house-pages/search', { error });
+        res.render('house-pages/search', { error: error.message });
     }
 });
 
