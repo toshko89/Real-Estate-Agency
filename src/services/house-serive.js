@@ -3,7 +3,7 @@ const Housing = require('../models/Housing.js');
 const getAll = async () => Housing.find({}).populate('tenants').populate('owner').lean();
 
 async function getOne(houseId){
-    return Housing.findById(houseId).lean();
+    return Housing.findById(houseId).populate('tenants').populate('owner').lean();
 };
 
 const getLatestThree = async () => await Housing.find().sort({ createdAt: -1 }).limit(3).lean();
@@ -35,10 +35,6 @@ async function addTenant(houseId,personId){
         )
 }
 
-async function getAllTenants(houseId){
-    return Housing.findById(houseId).populate('tenants').lean();
-}
-
 const houseSerice = {
     getAll,
     getOne,
@@ -47,8 +43,7 @@ const houseSerice = {
     updateHouse,
     deleteHouse,
     addTenant,
-    getLatestThree,
-    getAllTenants,
+    getLatestThree
 }
 
 module.exports = houseSerice;

@@ -41,7 +41,6 @@ async function isOwner(req, res, next) {
     if(house.owner == req.user?._id){
         console.log(house.owner == req.user?._id);
         req.user.isOwner === true;
-        console.log(req.user.isOwner);
         return next();
     }
 

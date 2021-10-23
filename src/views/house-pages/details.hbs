@@ -12,13 +12,14 @@
                         <h4>Year: {{year}}</h4>
                         <h4>City: {{city}}</h4>
                         <p>Description: {{description}}</p>
-
+                        
+                        {{#if tenantsNames}}
                         <!-- if there are already tenants of the housing, separate their names with a comma and a space ", "  -->
-                        <p>People rented this housing: Alex Petkov, Ivan Dobrev</p>
-
+                        <p>People rented this housing: {{tenantsNames}}</p>
+                        {{else}}
                         <!-- If not display: -->
                         <p>People rented this housing: There are no tenants yet.</p>
-
+                        {{/if}}
                     </div>
                 </div>
 

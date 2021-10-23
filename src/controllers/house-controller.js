@@ -44,8 +44,8 @@ houseController.get('/:houseId', async (req, res) => {
         const isOwnHouse = house.owner == req.user?._id;
         const isAvailable = house.availablePieces > 0;
         const isRented = await isRentedByCurrentUser(req.params.houseId, req.user);
-        console.log(isRented)
-        res.render('house-pages/details', { isOwnHouse, isRented, isAvailable, ...house, title: 'Details' });
+        const tenantsNames = house.tenants.map(user => user.name).join(', ');
+        res.render('house-pages/details', { isOwnHouse, isRented, isAvailable, tenantsNames, ...house, title: 'Details' });
     } catch (error) {
         console.log(error);
         res.render('house-pages/details', { title: 'Search Page', error });
@@ -55,14 +55,12 @@ houseController.get('/:houseId', async (req, res) => {
 houseController.get('/:houseId/rent', async (req, res) => {
     try {
         await houseService.addTenant(req.params.houseId, req.user._id);
-        const allTenants = await houseService.getAllTenants(req.params.houseId);
-        // TODO.... 
-        const tenantsNames = allTenants.map(user => user.name);
-        res.redirect(`/houses/${req.params.houseId}`, tenantsNames);
+        res.redirect(`/houses/${req.params.houseId}`);
     } catch (error) {
         console.log(error);
+        res.render('house-pages/details', { error });
     }
-})
+});
 
 houseController.get('/:houseId/edit', isOwner, async (req, res) => {
     try {
