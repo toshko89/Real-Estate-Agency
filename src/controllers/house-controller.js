@@ -92,6 +92,4 @@ houseController.get('/:houseId/delete', isOwner, async (req, res) => {
     }
 });
 
-
-
 module.exports = houseController;
