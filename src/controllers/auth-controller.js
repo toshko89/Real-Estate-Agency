@@ -33,7 +33,7 @@ authController.post('/register', async (req, res) => {
         if (password !== rePassword) {
             throw new Error('Password doesn\'t match, please try again');
         }
-        if (name.trim() == '' && username.trim() == '' && password.trim() == '' && rePassword.trim() == '') {
+        if (name.trim() == '' || username.trim() == '' || password.trim() == '' || rePassword.trim() == '') {
             throw new Error('All fields are required!');
         }
 
