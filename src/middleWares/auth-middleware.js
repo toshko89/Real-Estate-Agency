@@ -40,7 +40,7 @@ async function isOwner(req, res, next) {
         const house = await houseService.getOne(req.params.houseId);
         if (house.owner._id == req.user?._id) {
             console.log(house.owner == req.user?._id);
-            req.user.isOwner === true;
+            req.user.isOwner = true;
             return next();
         }
         return res.render('auth/login', { error: 'You are not authorized to view this page, please login/regiter' });
